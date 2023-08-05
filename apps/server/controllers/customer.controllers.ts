@@ -5,12 +5,14 @@ import { JWT_SECRET } from "../config";
 import z from "zod";
 import { Customer } from "../models/customer.models";
 
-export const customer_zod_schema = z.object({
-  _id: z.string().optional(),
-  name: z.string().min(2).max(100),
-  email: z.string().email(),
-  password: z.string().min(4).max(100)
-});
+export const customer_zod_schema = z
+  .object({
+    _id: z.string().optional(),
+    name: z.string().min(2).max(100),
+    email: z.string().email(),
+    password: z.string().min(4).max(100)
+  })
+  .strict();
 
 export type Customer = z.infer<typeof customer_zod_schema>;
 
