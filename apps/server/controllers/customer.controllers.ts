@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import z from "zod";
 
 import { JWT_SECRET } from "../config";
-import z from "zod";
 import { Customer } from "../models/customer.models";
 
 export const customer_zod_schema = z
   .object({
     _id: z.string().optional(),
-    name: z.string().min(2).max(100),
+    name: z.string().min(2).max(30),
     email: z.string().email(),
-    password: z.string().min(4).max(100)
+    password: z.string().min(4).max(40)
   })
   .strict();
 
