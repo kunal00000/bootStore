@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 
 interface UserPayload {
+  name: string;
   email: string;
   role: "owner" | "customer";
 }
@@ -24,6 +25,7 @@ export const authenticate = (
           });
         }
         const user = decoded as UserPayload;
+        req.headers["user_name"] = user.name;
         req.headers["user_email"] = user.email;
         req.headers["user_role"] = user.role;
         next();
