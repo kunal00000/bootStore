@@ -3,9 +3,9 @@ import cors from "cors";
 import express from "express";
 
 import { PORT } from "./config";
+import { connectDB } from "./db";
 import customerRouter from "./routes/customer.routes";
 import ownerRouter from "./routes/owner.routes";
-import { connectDB } from "./db";
 
 const app = express();
 
