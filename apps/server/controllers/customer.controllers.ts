@@ -38,9 +38,7 @@ export async function customerSignup(req: Request, res: Response) {
     const token = jwt.sign(
       { name: new_customer.name, email: new_customer.email, role: "customer" },
       JWT_SECRET,
-      {
-        expiresIn: "1h"
-      }
+      { expiresIn: "1h" }
     );
 
     // return customer data and token
@@ -63,9 +61,7 @@ export async function customerLogin(req: Request, res: Response) {
     const token = jwt.sign(
       { name: customer.name, email: customer.email, role: "customer" },
       JWT_SECRET,
-      {
-        expiresIn: "1h"
-      }
+      { expiresIn: "1h" }
     );
 
     // return customer data and token
