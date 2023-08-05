@@ -3,22 +3,26 @@ import cors from "cors";
 import express from "express";
 
 import { PORT } from "./config";
-import userRouter from "./routes/auth.routes";
-import todoRouter from "./routes/todo.routes";
+import customerRouter from "./routes/customer.routes";
+import ownerRouter from "./routes/owner.routes";
+import { connectDB } from "./db";
 
 const app = express();
 
 // global middlewares
 app.use(bodyParser.json());
-app.use(cors({ origin: "*" })); // default: allows all origins to access the server
+app.use(cors({ origin: "*" }));
 
 // * routes
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "Hello World!" });
-});
-app.use("/todos", todoRouter);
-app.use("/users", userRouter);
+app.use("/api/customer", customerRouter);
+app.use("/api/owner", ownerRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
