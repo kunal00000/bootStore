@@ -6,4 +6,4 @@ const owner_db_schema = new mongoose.Schema({
   password: String
 });
 
-export const Owner = mongoose.model("owner", owner_db_schema);
+export const OwnerModel = mongoose.model("owner", owner_db_schema);
