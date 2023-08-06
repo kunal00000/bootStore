@@ -3,21 +3,11 @@ import jwt from "jsonwebtoken";
 import z from "zod";
 
 import { JWT_SECRET } from "../config";
-import { Owner } from "../models/owner.models";
-
-export const owner_zod_schema = z
-  .object({
-    _id: z.string().optional(),
-    name: z.string().min(2).max(30),
-    email: z.string().email(),
-    password: z.string().min(4).max(40)
-  })
-  .strict();
-
-export type Owner = z.infer<typeof owner_zod_schema>;
+import { OwnerModel } from "../models/owner.models";
+import { owner_zod_schema } from "../types/owner.validation";
 
 export async function ownerSignup(req: Request, res: Response) {
-  const ownerExist = await Owner.findOne({ email: req.body["email"] });
+  const ownerExist = await OwnerModel.findOne({ email: req.body["email"] });
 
   // owner already exists
   if (ownerExist) {
@@ -32,7 +22,7 @@ export async function ownerSignup(req: Request, res: Response) {
     }
 
     // create new owner in database
-    const new_owner = new Owner(valid.data);
+    const new_owner = new OwnerModel(valid.data);
     await new_owner.save();
 
     // create authentication token
@@ -52,7 +42,7 @@ export async function ownerSignup(req: Request, res: Response) {
 }
 
 export async function ownerLogin(req: Request, res: Response) {
-  const owner = await Owner.findOne({
+  const owner = await OwnerModel.findOne({
     email: req.headers["email"],
     password: req.headers["password"]
   });

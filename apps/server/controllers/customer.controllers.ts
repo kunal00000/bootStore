@@ -3,21 +3,11 @@ import jwt from "jsonwebtoken";
 import z from "zod";
 
 import { JWT_SECRET } from "../config";
-import { Customer } from "../models/customer.models";
-
-export const customer_zod_schema = z
-  .object({
-    _id: z.string().optional(),
-    name: z.string().min(2).max(30),
-    email: z.string().email(),
-    password: z.string().min(4).max(40)
-  })
-  .strict();
-
-export type Customer = z.infer<typeof customer_zod_schema>;
+import { CustomerModel } from "../models/customer.models";
+import { customer_zod_schema } from "../types/customer.validation";
 
 export async function customerSignup(req: Request, res: Response) {
-  const customerExist = await Customer.findOne({ email: req.body.email });
+  const customerExist = await CustomerModel.findOne({ email: req.body.email });
 
   if (customerExist) {
     res.status(400).json({ message: "Email already exists" });
@@ -31,7 +21,7 @@ export async function customerSignup(req: Request, res: Response) {
     }
 
     // create new customer in database
-    const new_customer = new Customer(valid.data);
+    const new_customer = new CustomerModel(valid.data);
     await new_customer.save();
 
     // create authentication token
@@ -51,7 +41,7 @@ export async function customerSignup(req: Request, res: Response) {
 }
 
 export async function customerLogin(req: Request, res: Response) {
-  const customer = await Customer.findOne({
+  const customer = await CustomerModel.findOne({
     email: req.headers["email"],
     password: req.headers["password"]
   });
