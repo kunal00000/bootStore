@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import z from "zod";
 
 import { JWT_SECRET } from "../config";
 import { OwnerModel } from "../models/owner.models";
@@ -14,7 +13,7 @@ export async function ownerSignup(req: Request, res: Response) {
     res.status(400).json({ message: "Email already exists" });
   } else {
     // validate owner input
-    const valid = owner_zod_schema.safeParse(req.body);
+    const valid = owner_zod_schema.safeParse({ ...req.body, products: [] });
     if (!valid.success) {
       return res
         .status(400)

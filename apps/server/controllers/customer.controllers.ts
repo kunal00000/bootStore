@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import z from "zod";
 
 import { JWT_SECRET } from "../config";
 import { CustomerModel } from "../models/customer.models";
