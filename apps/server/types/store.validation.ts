@@ -8,10 +8,10 @@ export const store_zod_schema = z
     name: z.string().min(1).max(60),
     description: z.string().min(1).max(200),
     logoUrl: z.string().url(),
-    address: z.string(),
+    address: z.string().url(),
     contactEmail: z.string().email(),
     contactPhone: z.string().max(10),
-    products: z.array(product_zod_schema)
+    products: z.array(z.string().uuid())
   })
   .strict();
 
