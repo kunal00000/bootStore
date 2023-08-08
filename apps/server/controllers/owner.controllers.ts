@@ -13,7 +13,7 @@ export async function ownerSignup(req: Request, res: Response) {
     res.status(400).json({ message: "Email already exists" });
   } else {
     // validate owner input
-    const valid = owner_zod_schema.safeParse({ ...req.body, products: [] });
+    const valid = owner_zod_schema.safeParse({ ...req.body, stores: [] });
     if (!valid.success) {
       return res
         .status(400)
