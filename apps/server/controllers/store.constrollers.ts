@@ -14,7 +14,8 @@ export async function getAllStores(req: Request, res: Response) {
 }
 
 export async function getStoreByID(req: Request, res: Response) {
-  const store = await StoreModel.findById(req.params.id);
+  const store = await StoreModel.findById(req.params["store_id"]);
+
   if (store) {
     return res.status(200).json({ message: "Success", store: store });
   } else {
@@ -53,16 +54,18 @@ export async function createStore(req: Request, res: Response) {
 }
 
 export async function deleteStore(req: Request, res: Response) {
-  const owner = await OwnerModel.findById(req.headers["owner_id"]);
+  const owner = await OwnerModel.findById(req.headers["user_id"]);
 
   if (owner) {
-    const storeId = owner.stores.find(
+    const storeIdx = owner.stores.findIndex(
       (store) => store.toString() == req.params["store_id"]
     );
 
-    if (storeId) {
-      const store = await StoreModel.findByIdAndDelete(storeId);
+    if (storeIdx != -1) {
+      const store = await StoreModel.findByIdAndDelete(req.params["store_id"]);
 
+      owner.stores.splice(storeIdx, 1);
+      await owner.save();
       if (store) {
         return res.status(200).json({ message: "Success" });
       } else {
@@ -71,5 +74,7 @@ export async function deleteStore(req: Request, res: Response) {
     } else {
       return res.status(404).json({ message: "Store not found for owner" });
     }
+  } else {
+    return res.status(404).json({ message: "Owner not found" });
   }
 }
