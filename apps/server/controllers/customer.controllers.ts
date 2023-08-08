@@ -25,7 +25,7 @@ export async function customerSignup(req: Request, res: Response) {
 
     // create authentication token
     const token = jwt.sign(
-      { name: new_customer.name, email: new_customer.email, role: "customer" },
+      { id: new_customer._id, name: new_customer.name, role: "customer" },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -48,7 +48,7 @@ export async function customerLogin(req: Request, res: Response) {
   // customer found successfully
   if (customer) {
     const token = jwt.sign(
-      { name: customer.name, email: customer.email, role: "customer" },
+      { id: customer._id, name: customer.name, role: "customer" },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
