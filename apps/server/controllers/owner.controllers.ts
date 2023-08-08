@@ -26,14 +26,18 @@ export async function ownerSignup(req: Request, res: Response) {
 
     // create authentication token
     const token = jwt.sign(
-      { name: new_owner.name, email: new_owner.email, role: "owner" },
+      {
+        id: new_owner._id,
+        name: new_owner.name,
+        role: "owner"
+      },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
 
     // return owner data and token
     return res.status(201).json({
-      message: "Owner created successfully",
+      message: "Success",
       data: new_owner,
       token: token
     });
@@ -48,15 +52,15 @@ export async function ownerLogin(req: Request, res: Response) {
 
   if (owner) {
     const token = jwt.sign(
-      { name: owner.name, email: owner.email, role: "owner" },
+      { id: owner._id, name: owner.name, role: "owner" },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
 
     return res
       .status(200)
-      .json({ message: "Owner found", data: owner, token: token });
+      .json({ message: "Success", data: owner, token: token });
   } else {
-    return res.status(404).json({ message: "Owner not found" });
+    return res.status(404).json({ message: "Invalid email or password" });
   }
 }
