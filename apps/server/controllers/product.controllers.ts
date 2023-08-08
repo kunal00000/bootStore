@@ -42,7 +42,7 @@ export async function getProductByID(req: Request, res: Response) {
   }
 }
 
-export async function postProduct(req: Request, res: Response) {
+export async function createProduct(req: Request, res: Response) {
   const owner = await OwnerModel.findById(req.headers["owner_id"]).populate(
     "stores"
   );
