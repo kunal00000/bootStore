@@ -32,7 +32,7 @@ export async function customerSignup(req: Request, res: Response) {
 
     // return customer data and token
     return res.status(201).json({
-      message: "Customer created successfully",
+      message: "Success",
       data: new_customer,
       token: token
     });
@@ -56,7 +56,7 @@ export async function customerLogin(req: Request, res: Response) {
     // return customer data and token
     return res
       .status(200)
-      .json({ message: "Customer found", data: customer, token: token });
+      .json({ message: "Success", data: customer, token: token });
   } else {
     return res.status(404).json({ message: "Customer not found" });
   }
