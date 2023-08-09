@@ -1,6 +1,10 @@
 import express from "express";
 
 import {
+  createProduct,
+  deleteProduct
+} from "../controllers/product.controllers";
+import {
   createStore,
   deleteStore,
   getAllStores,
@@ -16,5 +20,10 @@ router
   .route("/:store_id")
   .get(authenticate, getStoreByID)
   .delete(authenticate, deleteStore);
+
+router.route("/:store_id/product").post(authenticate, createProduct);
+router
+  .route("/:store_id/product/:product_id")
+  .delete(authenticate, deleteProduct);
 
 export default router;
