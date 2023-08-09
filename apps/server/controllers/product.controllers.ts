@@ -17,7 +17,7 @@ export async function getProductsOfAllStores(req: Request, res: Response) {
 
 export async function getProductsOfStore(req: Request, res: Response) {
   const store = await StoreModel.findOne({
-    _id: req.headers.id
+    _id: req.params["store_id"]
   }).populate("products");
 
   if (!store) {

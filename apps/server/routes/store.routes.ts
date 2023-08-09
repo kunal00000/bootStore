@@ -2,7 +2,8 @@ import express from "express";
 
 import {
   createProduct,
-  deleteProduct
+  deleteProduct,
+  getProductsOfStore
 } from "../controllers/product.controllers";
 import {
   createStore,
@@ -21,7 +22,10 @@ router
   .get(authenticate, getStoreByID)
   .delete(authenticate, deleteStore);
 
-router.route("/:store_id/product").post(authenticate, createProduct);
+router
+  .route("/:store_id/product")
+  .get(getProductsOfStore)
+  .post(authenticate, createProduct);
 router
   .route("/:store_id/product/:product_id")
   .delete(authenticate, deleteProduct);
