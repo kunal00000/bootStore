@@ -6,6 +6,7 @@ import { PORT } from "./config";
 import { connectDB } from "./db";
 import customerRouter from "./routes/customer.routes";
 import ownerRouter from "./routes/owner.routes";
+import productRouter from "./routes/product.routes";
 import storeRouter from "./routes/store.routes";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors({ origin: "*" }));
 app.use("/api/customer", customerRouter);
 app.use("/api/owner", ownerRouter);
 app.use("/api/store", storeRouter);
+app.use("/api/product", productRouter);
 
 connectDB()
   .then(() => {

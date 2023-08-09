@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 import { OwnerModel } from "../models/owner.models";
 import { ProductModel } from "../models/product.models";
@@ -9,7 +8,7 @@ import { product_zod_schema } from "../types/product.validation";
 export async function getProductsOfAllStores(req: Request, res: Response) {
   const products = await ProductModel.find({});
 
-  if (products.length > 0) {
+  if (products) {
     return res.status(200).json({ message: "Success", products: products });
   } else {
     return res.status(404).json({ message: "No products found" });
@@ -33,7 +32,7 @@ export async function getProductsOfStore(req: Request, res: Response) {
 }
 
 export async function getProductByID(req: Request, res: Response) {
-  const product = await ProductModel.findById(req.params.id);
+  const product = await ProductModel.findById(req.params["product_id"]);
 
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
@@ -43,13 +42,13 @@ export async function getProductByID(req: Request, res: Response) {
 }
 
 export async function createProduct(req: Request, res: Response) {
-  const owner = await OwnerModel.findById(req.headers["owner_id"]).populate(
+  const owner = await OwnerModel.findById(req.headers["user_id"]).populate(
     "stores"
   );
 
   if (owner) {
     const storeId = owner.stores.find(
-      (store) => store._id.toString() == req.headers["store_id"]
+      (store) => store._id.toString() == req.params["store_id"]
     );
 
     if (storeId) {
@@ -85,11 +84,11 @@ export async function createProduct(req: Request, res: Response) {
 }
 
 export async function deleteProduct(req: Request, res: Response) {
-  const owner = await OwnerModel.findById(req.headers["owner_id"]);
+  const owner = await OwnerModel.findById(req.headers["user_id"]);
 
   if (owner) {
     const storeId = owner.stores.find(
-      (store) => store._id.toString() == req.headers["store_id"]
+      (store) => store._id.toString() == req.params["store_id"]
     );
 
     if (storeId) {
@@ -97,14 +96,13 @@ export async function deleteProduct(req: Request, res: Response) {
 
       if (store) {
         const productIdx = store.products.findIndex(
-          (product) => product._id.toString() == req.headers["product_id"]
+          (product) => product._id.toString() == req.params["product_id"]
         );
 
-        if (productIdx) {
+        if (productIdx != -1) {
           const product = await ProductModel.findByIdAndDelete(
-            req.headers["product_id"]
+            req.params["product_id"]
           );
-          await product?.save();
 
           store.products.splice(productIdx, 1);
           await store.save();
