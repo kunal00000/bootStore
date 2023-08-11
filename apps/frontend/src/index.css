@@ -6,6 +6,10 @@
   animation: animateIn 0.3s ease 0.15s both;
 }
 
+.animate-in-2 {
+  animation: animateIn 0.8s ease 0.15s both;
+}
+
 @keyframes animateIn {
   from {
     opacity: 0;
@@ -15,4 +19,9 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.font-outline {
+  text-shadow: 2px 2px 0 green, -2px -2px 0 green, 2px -2px 0 green,
+    -2px 2px 0 green;
 }
