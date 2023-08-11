@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Burger, Button, Group } from "@mantine/core";
-import Dropdown from "../components/Dropdown";
+import Dropdown from "./Dropdown";
 import BurgerDropdown from "./BurgerDropdown";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -10,6 +10,7 @@ function Navbar() {
   const toggle = () => {
     setOpen(!open);
   };
+
   return (
     <>
       <nav className="w-full flex flex-row justify-between items-center border-y-[0.1rem] border-black my-[1vw] px-[5vw] h-16 z-10">
