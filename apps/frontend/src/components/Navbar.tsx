@@ -26,7 +26,7 @@ function Navbar() {
         </div>
 
         <Group>
-          <Link href="#">
+          <Link to={"#"}>
             <Button variant="outline" color="dark">
               Sign up
             </Button>
